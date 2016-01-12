@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.i18n.encoding" value="utf-8" />
+	<constant name="struts.custom.i18n.resources" value="applicationResource" />
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+	<constant name="struts.multipart.maxSize" value="10701096" />
+
+	<package name="order-default" namespace="/" extends="json-default">
+		<interceptors>
+			<interceptor name="userInterceptor" class="com.order.interceptor.UserInterceptor" />
+			<interceptor-stack name="mystack">
+				<interceptor-ref name="userInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="mystack"></default-interceptor-ref>
+		<global-results>
+			<result name="login" type="redirect">/login</result>
+		</global-results>
+	</package>
+
+	<package name="index" namespace="/" extends="order-default">
+		<default-action-ref name="index" />
+		<action name="reg" class="homeAction" method="reg">
+			<result name="input">/reg.jsp</result>
+			<result name="error">/reg.jsp</result>
+			<result name="success" type="redirect">/login</result>
+		</action>
+		<action name="login" class="homeAction" method="login">
+			<result name="input">/login.jsp</result>
+			<result name="error">/login.jsp</result>
+			<result name="success" type="redirect">/index</result>
+		</action>
+		<action name="password" class="homeAction" method="password">
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		<action name="logout" class="homeAction" method="logout">
+			<result name="success" type="redirect">/index</result>
+		</action>
+		<action name="index" class="homeAction" method="index">
+			<result>/index.jsp</result>
+			<result name="error">/login.jsp</result>
+		</action>
+		<action name="postMessage" class="homeAction" method="postMessage">
+			<result type="plainText">dsa</result>
+		</action>
+		<action name="showMessage" class="homeAction" method="showMessage">
+			<result>/showMessage.jsp</result>
+		</action>
+	</package>
+
+	<package name="order" namespace="/order" extends="order-default">
+		<action name="index" class="orderAction" method="index">
+			<result>/order/index.jsp</result>
+		</action>
+		<action name="saveDesk" class="orderAction" method="saveDesk">
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		<action name="destoryDesk" class="orderAction" method="destoryDesk">
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		<action name="listCategory" class="orderAction" method="listCategory">
+			<result>/order/listCategory.jsp</result>
+		</action>
+		<action name="saveCategory" class="orderAction" method="saveCategory">
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		<action name="destoryCategory" class="orderAction" method="destoryCategory">
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		<action name="listFood" class="orderAction" method="listFood">
+			<result>/order/listFood.jsp</result>
+		</action>
+		<action name="saveFood" class="orderAction" method="saveFood">
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		<action name="destoryFood" class="orderAction" method="destoryFood">
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		<action name="addFood" class="orderAction" method="addFood">
+			<result type="redirect">/order/listFood?category.id=${category.id}
+			</result>
+		</action>
+		<action name="removeFood" class="orderAction" method="removeFood">
+			<result type="redirect">/order/listFood?category.id=${category.id}
+			</result>
+		</action>
+		<action name="addOrder" class="orderAction" method="addOrder">
+			<result>/order/addOrder.jsp</result>
+		</action>
+	</package>
+
+	<package name="report" namespace="/report" extends="order-default">
+		<action name="dayReport" class="reportAction" method="dayReport">
+			<result>/report/dayReport.jsp</result>
+		</action>
+		<action name="monthReport" class="reportAction" method="monthReport">
+			<result>/report/monthReport.jsp</result>
+		</action>
+	</package>
+
+	<package name="user" namespace="/user" extends="edu-default">
+		<action name="listUser" class="userAction" method="listUser">
+			<result>/user/listUser.jsp</result>
+		</action>
+		<action name="saveUser" class="userAction" method="saveUser">
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+		<action name="destoryUser" class="userAction" method="destoryUser">
+			<result type="stream">
+				<param name="contentType">text/html</param>
+				<param name="inputName">inputStream</param>
+			</result>
+		</action>
+	</package>
+</struts>
